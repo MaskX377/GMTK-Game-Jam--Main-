@@ -64,16 +64,6 @@ public class Player_Properties : MonoBehaviour
         {
             Movement();
         }
-        if (speed == walkSpeed)
-        {
-            anim.SetBool("Walking", true);
-        }
-        if (speed == runSpeed)
-        {
-            anim.SetBool("Running", true);
-        }
-        anim.SetBool("Walking", false);
-        anim.SetBool("Running", false);
     }
 
     void Movement()
