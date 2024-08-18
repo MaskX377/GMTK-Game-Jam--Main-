@@ -717,9 +717,10 @@ MonoBehaviour:
   Camera: {fileID: 963194228}
   GroundCheck: {fileID: 1466966984}
   Hips: {fileID: 1064171818}
+  movement: {x: 0, y: 0, z: 0}
   speed: 0
-  walkSpeed: 8000
-  runSpeed: 12000
+  walkSpeed: 400
+  runSpeed: 600
   jumpForce: 15
   maxNumberOfJumps: 2
   numberOfJumpsLeft: 0

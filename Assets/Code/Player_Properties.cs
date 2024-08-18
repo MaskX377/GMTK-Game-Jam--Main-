@@ -64,6 +64,16 @@ public class Player_Properties : MonoBehaviour
         {
             Movement();
         }
+        if (speed == walkSpeed)
+        {
+            anim.SetBool("Walking", true);
+        }
+        if (speed == runSpeed)
+        {
+            anim.SetBool("Running", true);
+        }
+        anim.SetBool("Walking", false);
+        anim.SetBool("Running", false);
     }
 
     void Movement()
@@ -90,6 +100,8 @@ public class Player_Properties : MonoBehaviour
             move += Vector3.right * speed * Time.fixedDeltaTime;
             transform.rotation = Quaternion.Euler(0, Hips.rotation.x + 90, 0);
         }
+
+        movement = move;
 
         rb.velocity = new Vector3(move.x, rb.velocity.y, move.z);
     }
