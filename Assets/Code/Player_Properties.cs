@@ -11,8 +11,10 @@ public class Player_Properties : MonoBehaviour
 
     public Transform Camera;
     public Transform GroundCheck;
+    public Transform Hips;
 
     Vector3 mousePosition;
+    public Vector3 movement;
 
     float groundCheckRadius = 0.1f;
     public float speed;
@@ -70,19 +72,23 @@ public class Player_Properties : MonoBehaviour
 
         if (Input.GetKey(KeyCode.W))
         {
-            move += transform.forward * speed * Time.fixedDeltaTime;
+            move += Vector3.forward * speed * Time.fixedDeltaTime;
+            transform.rotation = Quaternion.Euler(0, Hips.rotation.x + 0, 0);
         }
         if (Input.GetKey(KeyCode.S))
         {
-            move += -transform.forward * speed * Time.fixedDeltaTime;
+            move += -Vector3.forward * speed * Time.fixedDeltaTime;
+            transform.rotation = Quaternion.Euler(0, Hips.rotation.x + 180, 0);
         }
         if (Input.GetKey(KeyCode.A))
         {
-            move += -transform.right * speed * Time.fixedDeltaTime;
+            move += -Vector3.right * speed * Time.fixedDeltaTime;
+            transform.rotation = Quaternion.Euler(0, Hips.rotation.x - 90, 0);
         }
         if (Input.GetKey(KeyCode.D))
         {
-            move += transform.right * speed * Time.fixedDeltaTime;
+            move += Vector3.right * speed * Time.fixedDeltaTime;
+            transform.rotation = Quaternion.Euler(0, Hips.rotation.x + 90, 0);
         }
 
         rb.velocity = new Vector3(move.x, rb.velocity.y, move.z);
