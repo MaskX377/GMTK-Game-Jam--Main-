@@ -1,10 +1,13 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Data.SqlTypes;
 using UnityEngine;
 
 public class Player_Properties : MonoBehaviour
 {
     Rigidbody rb;
+
+    Animator anim;
 
     public Transform Camera;
     public Transform GroundCheck;
@@ -16,10 +19,6 @@ public class Player_Properties : MonoBehaviour
     public float walkSpeed;
     public float runSpeed;
     public float jumpForce;
-    public float mouseSensitivity = 100f;
-    public float xRotationMaxAngle;
-    float xRotation;
-    float yRotation;
 
     public int maxNumberOfJumps = 2;
     public int numberOfJumpsLeft;
@@ -35,6 +34,7 @@ public class Player_Properties : MonoBehaviour
     void Start()
     {
         rb = GetComponent<Rigidbody>();
+        anim = GetComponent<Animator>();
         Cursor.lockState = CursorLockMode.Locked;
     }
 
@@ -52,7 +52,6 @@ public class Player_Properties : MonoBehaviour
 
         if (gameObject != null)
         {
-            CameraMovement();
             Jump();
         }
     }
@@ -63,11 +62,6 @@ public class Player_Properties : MonoBehaviour
         {
             Movement();
         }
-    }
-
-    void CameraMovement()
-    {
-        
     }
 
     void Movement()
