@@ -36,7 +36,6 @@ public class PlayerAnimator : MonoBehaviour
         {
             animator.SetBool("Walking", false);
             animator.SetBool("Running", false);
-
         }
     }
 }
