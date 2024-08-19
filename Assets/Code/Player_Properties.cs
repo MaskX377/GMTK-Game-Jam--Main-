@@ -9,7 +9,7 @@ public class Player_Properties : MonoBehaviour
 
     Animator anim;
 
-    public Transform Camera;
+    public Transform Cam;
     public Transform GroundCheck;
     public Transform Hips;
 
@@ -21,6 +21,9 @@ public class Player_Properties : MonoBehaviour
     public float walkSpeed;
     public float runSpeed;
     public float jumpForce;
+
+    public float turnSmoothTime;
+    float turnSmoothVelocity;
 
     public int maxNumberOfJumps = 2;
     public int numberOfJumpsLeft;
@@ -43,14 +46,14 @@ public class Player_Properties : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetKey(KeyCode.LeftShift))
-        {
-            speed = runSpeed;
-        }
-        else
-        {
-            speed = walkSpeed;
-        }
+        //if (Input.GetKey(KeyCode.LeftShift))
+        //{
+        //    speed = runSpeed;
+        //}
+        //else
+        //{
+        //    speed = walkSpeed;
+        //}
 
         if (gameObject != null)
         {
@@ -68,32 +71,48 @@ public class Player_Properties : MonoBehaviour
 
     void Movement()
     {
-        Vector3 move = Vector3.zero;
+        float horizontal = Input.GetAxisRaw("Horizontal");
+        float vertical = Input.GetAxisRaw("Vertical");
 
-        if (Input.GetKey(KeyCode.W))
+        Vector3 direction = new Vector3(horizontal, 0, vertical).normalized;
+
+        if (direction.magnitude >= 0.1f)
         {
-            move += Vector3.forward * speed * Time.fixedDeltaTime;
-            transform.rotation = Quaternion.Euler(0, Hips.rotation.x + 0, 0);
-        }
-        if (Input.GetKey(KeyCode.S))
-        {
-            move += -Vector3.forward * speed * Time.fixedDeltaTime;
-            transform.rotation = Quaternion.Euler(0, Hips.rotation.x + 180, 0);
-        }
-        if (Input.GetKey(KeyCode.A))
-        {
-            move += -Vector3.right * speed * Time.fixedDeltaTime;
-            transform.rotation = Quaternion.Euler(0, Hips.rotation.x - 90, 0);
-        }
-        if (Input.GetKey(KeyCode.D))
-        {
-            move += Vector3.right * speed * Time.fixedDeltaTime;
-            transform.rotation = Quaternion.Euler(0, Hips.rotation.x + 90, 0);
+            float targetAngle = Mathf.Atan2(direction.x, direction.z) * Mathf.Rad2Deg + Cam.eulerAngles.y;
+            float angle = Mathf.SmoothDampAngle(transform.eulerAngles.y, targetAngle, ref turnSmoothVelocity, turnSmoothTime);
+            transform.rotation = Quaternion.Euler(0, angle, 0);
+
+            Vector3 moveDir = Quaternion.Euler(0, targetAngle, 0) * Vector3.forward;
+
+            rb.velocity = moveDir.normalized * speed * Time.fixedDeltaTime;
         }
 
-        movement = move;
+        //Vector3 move = Vector3.zero;
 
-        rb.velocity = new Vector3(move.x, rb.velocity.y, move.z);
+        //if (Input.GetKey(KeyCode.W))
+        //{
+        //    move += Vector3.forward * speed * Time.fixedDeltaTime;
+        //    transform.rotation = Quaternion.Euler(0, Hips.rotation.x + 0, 0);
+        //}
+        //if (Input.GetKey(KeyCode.S))
+        //{
+        //    move += -Vector3.forward * speed * Time.fixedDeltaTime;
+        //    transform.rotation = Quaternion.Euler(0, Hips.rotation.x + 180, 0);
+        //}
+        //if (Input.GetKey(KeyCode.A))
+        //{
+        //    move += -Vector3.right * speed * Time.fixedDeltaTime;
+        //    transform.rotation = Quaternion.Euler(0, Hips.rotation.x - 90, 0);
+        //}
+        //if (Input.GetKey(KeyCode.D))
+        //{
+        //    move += Vector3.right * speed * Time.fixedDeltaTime;
+        //    transform.rotation = Quaternion.Euler(0, Hips.rotation.x + 90, 0);
+        //}
+
+        //movement = move;
+
+        //rb.velocity = new Vector3(move.x, rb.velocity.y, move.z);
     }
 
     void Jump()
