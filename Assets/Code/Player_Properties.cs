@@ -29,7 +29,7 @@ public class Player_Properties : MonoBehaviour
 
     public LayerMask groundLayer;
 
-    bool IsGrounded()
+    public bool IsGrounded()
     {
         return Physics.CheckSphere(GroundCheck.position, groundCheckRadius, groundLayer);
     }
@@ -103,4 +103,6 @@ public class Player_Properties : MonoBehaviour
             rb.AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
         }
     }
+
+    public Vector3 GetCurrentVelocity() {  return rb.velocity; }
 }
